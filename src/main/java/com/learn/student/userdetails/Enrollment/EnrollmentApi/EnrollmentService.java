@@ -32,9 +32,11 @@ public class EnrollmentService {
         Map<String, Object> studentData = jdbcTemplate.queryForMap(studentQuery, studentId);
 
         if (!studentData.isEmpty()) {
-            Course course = courseRepository.findById(subjectId).orElse(null);
+            Integer studentGrade=Integer.parseInt(studentData.get("grade").toString());
+            Optional<Course> course = courseRepository.findByGradeAndSubjectId(studentGrade,subjectId);
+            Course course1 = course.get();
 
-            if (course != null && Integer.parseInt(studentData.get("grade").toString()) == course.getGrade() && course.hasAvailableSeats()) {
+            if (course != null && Integer.parseInt(studentData.get("grade").toString()) == course1.getGrade() && course1.hasAvailableSeats()) {
                 Enrollment enrollment = new Enrollment();
                 enrollment.setStudentId(studentId);
                 enrollment.setSubjectId(subjectId);
@@ -43,8 +45,8 @@ public class EnrollmentService {
 
                 enrollmentRepository.save(enrollment);
 
-                course.setSeatsAvailable(course.getSeatsAvailable() - 1);
-                courseRepository.save(course);
+                course1.setSeatsAvailable(course1.getSeatsAvailable() - 1);
+                courseRepository.save(course1);
 
                 return "Enrollment successful.";
             } else {
@@ -60,6 +62,7 @@ public class EnrollmentService {
         int nextYear = currentYear + 1;
         return currentYear + "-" + nextYear;
     }
+
     public String dropSubject(int studentId, int subjectId) {
         Optional<Enrollment> enrollmentOptional = enrollmentRepository.findByStudentIdAndSubjectId(studentId, subjectId);
         if (enrollmentOptional.isPresent()) {
@@ -78,5 +81,4 @@ public class EnrollmentService {
             return "Student is not enrolled in the subject.";
         }
     }
-
 }
