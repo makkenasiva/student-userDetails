@@ -29,6 +29,7 @@ public class UserController {
             userDetails.put("username", user.getUsername());
             userDetails.put("email", user.getEmail());
             userDetails.put("status", user.getStatus());
+            userDetails.put("details", user.getDetails());
             return ResponseEntity.ok(userDetails);
         } else {
             // No user found
