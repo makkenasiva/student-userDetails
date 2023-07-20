@@ -3,7 +3,7 @@ package com.learn.student.userdetails.Enrollment.EnrollmentApi;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/enrollments")
+@RequestMapping("/enrollment")
 public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
