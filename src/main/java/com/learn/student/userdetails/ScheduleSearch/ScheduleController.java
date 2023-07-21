@@ -1,6 +1,7 @@
 package com.learn.student.userdetails.ScheduleSearch;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +18,19 @@ public class ScheduleController {
     }
 
     @GetMapping("/{studentId}")
-    public List<ScheduleDTO> getStudentEnrollments(
+    public ResponseEntity<?> getStudentEnrollments(
             @PathVariable Long studentId,
             @RequestParam(required = false) String academicYear
     ) {
-        return scheduleService.getStudentEnrollments(studentId, academicYear);
+        List<ScheduleDTO> enrollments = scheduleService.getStudentEnrollments(studentId, academicYear);
+
+        if (enrollments.isEmpty()) {
+            return ResponseEntity.ok("{ Student not registered }");
+        }
+
+        return ResponseEntity.ok(enrollments);
     }
 }
+
 
 
