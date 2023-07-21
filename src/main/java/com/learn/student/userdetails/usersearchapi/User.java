@@ -13,7 +13,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 public class User {
 
@@ -25,7 +24,6 @@ public class User {
     private String password;
     private String status;
     private String email;
-
-    // Constructors, getters, and setters
+    private String details;
 }
 
