@@ -1,0 +1,23 @@
+CREATE TABLE subjects (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    subject_name VARCHAR(255)
+);
+
+CREATE TABLE courses (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    grade INT,
+    subject_id INT,
+    course_description VARCHAR(255),
+    seats_available INT,
+    FOREIGN KEY (subject_id) REFERENCES subjects(id)
+);
+CREATE TABLE enrollments (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT,
+    subject_id INT,
+    academic_year VARCHAR(9),
+    enrollment_date DATE,
+    FOREIGN KEY (student_id) REFERENCES student(id),
+    FOREIGN KEY (subject_id) REFERENCES subjects(id)
+);
+
