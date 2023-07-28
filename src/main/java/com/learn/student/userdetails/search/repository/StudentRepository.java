@@ -22,7 +22,7 @@ public class StudentRepository {
             String email
     ) {
         String sql = "SELECT i.name AS institutionName, CONCAT(s.first_name, ' ', s.last_name) AS studentName, s.grade, s.username " +
-                "FROM Student s JOIN institutions i ON s.institutions_id = i.id " +
+                "FROM Student s JOIN institutions i ON s.institution_id = i.id " +
                 "WHERE i.name = :institutionName " +
                 // "WHERE (:institutionName IS NULL OR i.name = :institutionName) " +
                 "AND (:studentId IS NULL OR s.id = :studentId) " +

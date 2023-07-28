@@ -25,11 +25,16 @@ public class ScheduleController {
         List<ScheduleDTO> enrollments = scheduleService.getStudentEnrollments(studentId, academicYear);
 
         if (enrollments.isEmpty()) {
-            return ResponseEntity.ok("{ Student not registered }");
+            if (academicYear == null) {
+                return ResponseEntity.ok("{ Student not registered for any academic year }");
+            } else {
+                return ResponseEntity.ok("{In correct academic year or Student not registered for academic year: " + academicYear + " }");
+            }
         }
 
         return ResponseEntity.ok(enrollments);
     }
+
 }
 
 
