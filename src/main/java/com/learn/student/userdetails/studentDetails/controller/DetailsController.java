@@ -2,10 +2,11 @@ package com.learn.student.userdetails.studentDetails.controller;
 
 import com.learn.student.userdetails.studentDetails.studentinfo.Details;
 import com.learn.student.userdetails.studentDetails.service.DetailService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
+@CrossOrigin("*")
 @RestController
 public class DetailsController {
     private final DetailService detailService;

@@ -12,7 +12,7 @@ public class DetailsRepository {
     }
 
     public Details getStudentDetailsById(Integer studentId) {
-        String sql = "SELECT id, first_name, middle_name, last_name, preferred_name, date_of_birth, gender, email, address, mobile_number, institutions_id " +
+        String sql = "SELECT id, first_name, middle_name, last_name, preferred_name, date_of_birth, gender, email, address, mobile_number, institution_id " +
                 "FROM Student " +
                 "WHERE id = ?";
 
@@ -22,13 +22,13 @@ public class DetailsRepository {
             studentDetails.setFirstName(rs.getString("first_name"));
             studentDetails.setMiddleName(rs.getString("middle_name"));
             studentDetails.setLastName(rs.getString("last_name"));
-            studentDetails.setPreferredName(rs.getString("preffered_name"));
+            studentDetails.setPreferredName(rs.getString("preferred_name"));
             studentDetails.setDateOfBirth(rs.getString("date_of_birth"));
             studentDetails.setGender(rs.getString("gender"));
             studentDetails.setEmail(rs.getString("email"));
             studentDetails.setAddress(rs.getString("address"));
             studentDetails.setMobileNumber(rs.getLong("mobile_number"));
-            studentDetails.setInstitutionId(rs.getInt("institutions_id"));
+            studentDetails.setInstitutionId(rs.getInt("institution_id"));
             return studentDetails;
         }, studentId);
     }
