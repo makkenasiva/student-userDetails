@@ -5,12 +5,13 @@ package com.learn.student.userdetails.search.controller;
 
 import com.learn.student.userdetails.search.pojo.StudentSearchResult;
 import com.learn.student.userdetails.search.service.StudentService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@CrossOrigin("*")
 @RestController
 public class StudentController {
     private final StudentService studentService;
