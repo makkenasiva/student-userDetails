@@ -9,6 +9,7 @@ CREATE TABLE courses (
     subject_id INT,
     course_description VARCHAR(255),
     seats_available INT,
+     fees DECIMAL(10,2),
     FOREIGN KEY (subject_id) REFERENCES subjects(id)
 );
 CREATE TABLE enrollments (
@@ -21,3 +22,55 @@ CREATE TABLE enrollments (
     FOREIGN KEY (subject_id) REFERENCES subjects(id)
 );
 
+CREATE INDEX idx_student_id_grade ON student (id, grade);
+CREATE INDEX idx_subjects_id_name ON subjects (id, subject_name);
+CREATE TABLE student_fees (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT,
+    academic_year VARCHAR(9),
+    enrolled_subject_id INT,
+    grade INT,
+    fees DECIMAL(10, 2),
+    subject_name VARCHAR(255),
+    FOREIGN KEY (student_id, grade) REFERENCES student(id, grade),
+    FOREIGN KEY (enrolled_subject_id) REFERENCES subjects(id),
+    CONSTRAINT FK_subjects_id_name FOREIGN KEY (enrolled_subject_id, subject_name)
+        REFERENCES subjects(id, subject_name)
+);
+
+SELECT s.id AS student_id, s.first_name, s.last_name, e.subject_id, su.subject_name, c.grade, e.academic_year, c.fees
+FROM student s
+JOIN enrollments e ON s.id = e.student_id
+JOIN subjects su ON e.subject_id = su.id
+JOIN courses c ON su.id = c.subject_id AND s.grade = c.grade
+WHERE s.id = 1;
+
+CREATE TABLE Scholarships (
+    scholarship_id INT PRIMARY KEY,
+    scholarship_name VARCHAR(100) NOT NULL,
+    scholarship_amount DECIMAL(10, 2) NOT NULL
+);
+CREATE TABLE Student_Scholarship (
+    student_id INT,
+    scholarship_id INT,
+    PRIMARY KEY (student_id, scholarship_id),
+    FOREIGN KEY (student_id) REFERENCES Student(id),
+    FOREIGN KEY (scholarship_id) REFERENCES Scholarships(scholarship_id)
+);
+
+SELECT ss.student_id, ss.scholarship_id, sc.scholarship_amount
+FROM Student_Scholarship ss
+JOIN Scholarships sc ON ss.scholarship_id = sc.scholarship_id;
+SELECT s.id AS student_id,
+       s.first_name,
+       s.last_name,
+       SUM(c.fees) AS total_subject_fees,
+       SUM(c.fees) - COALESCE(sc.scholarship_amount, 0) AS total_fees_after_scholarship
+FROM student s
+JOIN enrollments e ON s.id = e.student_id
+JOIN subjects su ON e.subject_id = su.id
+JOIN courses c ON su.id = c.subject_id AND s.grade = c.grade
+LEFT JOIN Student_Scholarship ss ON ss.student_id = s.id
+LEFT JOIN Scholarships sc ON ss.scholarship_id = sc.scholarship_id
+WHERE s.id = 1
+GROUP BY s.id, s.first_name, s.last_name, sc.scholarship_amount;
