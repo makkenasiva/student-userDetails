@@ -17,11 +17,11 @@ public class StudentRepository {
 
     public List<StudentSearchResult> searchStudents(
             String institutionName,
-            Integer studentId,
+            Integer studentId, // Added studentId parameter
             String username,
             String email
     ) {
-        String sql = "SELECT i.name AS institutionName, CONCAT(s.first_name, ' ', s.last_name) AS studentName, s.grade, s.username, s.email " +
+        String sql = "SELECT i.name AS institutionName, CONCAT(s.first_name, ' ', s.last_name) AS studentName, s.grade, s.username, s.email, s.id " +
                 "FROM Student s JOIN institutions i ON s.institution_id = i.id " +
                 "WHERE (:institutionName IS NULL OR i.name = :institutionName) " +
                 "AND (:studentId IS NULL OR s.id = :studentId) " +
@@ -40,7 +40,8 @@ public class StudentRepository {
             searchResult.setStudentName(rs.getString("studentName"));
             searchResult.setGrade(rs.getInt("grade"));
             searchResult.setUsername(rs.getString("username"));
-            searchResult.setEmail(rs.getString("email")); // Set the email value
+            searchResult.setEmail(rs.getString("email"));
+            searchResult.setId(rs.getInt("id")); // Set the studentId value
             return searchResult;
         });
     }

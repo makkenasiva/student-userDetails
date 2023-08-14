@@ -13,5 +13,6 @@ public class StudentSearchResult {
     private Integer grade;
     private String username;
     private String email;
+    private Integer id;
 }
 
