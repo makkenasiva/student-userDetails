@@ -41,7 +41,7 @@ public class StudentRepository {
             searchResult.setGrade(rs.getInt("grade"));
             searchResult.setUsername(rs.getString("username"));
             searchResult.setEmail(rs.getString("email"));
-            searchResult.setId(rs.getInt("id")); // Set the studentId value
+            searchResult.setStudentId(rs.getInt("id")); // Set the correct column name here
             return searchResult;
         });
     }
